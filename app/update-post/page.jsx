@@ -5,14 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { storage } from "@/utils/firebase";
-import { useData } from "@/context/PostContext";
 
 const UpdatePost = () => {
   const postId = useSearchParams().get("id");
   const name = useSearchParams().get("name");
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const { setStatus } = useData();
   const [error, setError] = useState({
     status: false,
     message: null,
@@ -134,7 +132,6 @@ const UpdatePost = () => {
         tag: null,
       });
       if (response.ok) {
-        setStatus('update');
         router.push("/");
       }
     } catch (error) {

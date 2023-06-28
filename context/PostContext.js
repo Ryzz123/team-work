@@ -13,7 +13,6 @@ export default function PostProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
-  const [status, setStatus] = useState('get');
 
   const router = useRouter();
 
@@ -38,7 +37,7 @@ export default function PostProvider({ children }) {
       setLoading(false);
     };
     fetchData();
-  }, [status]);
+  }, []);
 
   // function ke detail postingan
   const getDataDetail = (post) => {
@@ -112,7 +111,6 @@ export default function PostProvider({ children }) {
     users,
     handleSaveImage,
     sharePost,
-    setStatus
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;

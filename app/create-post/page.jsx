@@ -4,12 +4,10 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { storage } from "@/utils/firebase";
 import { useRouter } from "next/navigation";
-import { useData } from "@/context/PostContext";
 
 const CreatePost = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const { setStatus } = useData();
   const [error, setError] = useState({
     status: false,
     message: null,
@@ -108,7 +106,6 @@ const CreatePost = () => {
         tag: null,
       });
       if (response.ok) {
-        setStatus('create');
         router.push("/");
       }
     } catch (error) {

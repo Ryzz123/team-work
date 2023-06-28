@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 export default function CardPost({ post }) {
   const [like, setLike] = useState(0);
   const { data: session } = useSession();
-  const { getDataDetail, otherUser, sharePost } = useData();
+  const { sharePost } = useData();
   const [likeStatus, setLikeStatus] = useState(true);
   const [data, setData] = useState({});
 

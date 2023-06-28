@@ -1,13 +1,28 @@
 "use client";
-import { useData } from "@/context/PostContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardPost from "./CardPost";
 import { motion } from "framer-motion";
 
 export default function PostHero() {
-  const { posts, loading } = useData();
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
   const [pageSekarang, setPageSekarang] = useState(1);
   const [postPerPage] = useState(6);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const postRequest = await fetch("/api/post", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const postResponse = await postRequest.json();
+      setPosts(postResponse);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   const indexAkhirPost = pageSekarang * postPerPage;
   const indexAwalPost = indexAkhirPost - postPerPage;
