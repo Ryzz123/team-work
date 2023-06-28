@@ -1,32 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CardPost from "./CardPost";
 import { motion } from "framer-motion";
 
-export default function PostHero() {
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+export default function PostHero({ posts }) {
   const [pageSekarang, setPageSekarang] = useState(1);
   const [postPerPage] = useState(6);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const postRequest = await fetch("/api/post", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const postResponse = await postRequest.json();
-      setPosts(postResponse);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-
   const indexAkhirPost = pageSekarang * postPerPage;
   const indexAwalPost = indexAkhirPost - postPerPage;
-  const PostSekarang = !loading && posts.slice(indexAwalPost, indexAkhirPost);
+  const PostSekarang = posts.slice(indexAwalPost, indexAkhirPost);
 
   const nextClick = () => {
     window.scrollTo(0, 0);
@@ -75,77 +58,71 @@ export default function PostHero() {
         />
       </div>
 
-      {loading ? (
-        "Loading"
-      ) : (
-        <>
-          <div className="container lg:-mt-16 px-6 font-inter mx-auto sm:flex sm:flex-wrap sm:gap-6 sm:justify-evenly">
-            {PostSekarang.map((data) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ ease: "easeOut", duration: 2.2 }}
-                exit={{ opacity: 0 }}
+      <div className="container lg:-mt-16 px-6 font-inter mx-auto sm:flex sm:flex-wrap sm:gap-6 sm:justify-evenly">
+        {PostSekarang.map((data) => (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ ease: "easeOut", duration: 2.2 }}
+            exit={{ opacity: 0 }}
+          >
+            <CardPost key={data._id} post={data} />
+          </motion.div>
+        ))}
+      </div>
+      <div className="mt-10 justify-center space-x-16 lg:space-x-[48rem] flex">
+        {pageSekarang !== 1 && (
+          <button
+            onClick={backClick}
+            className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
+          >
+            <div className="flex items-center -mx-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 mx-1 rtl:-scale-x-100"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <CardPost key={data._id} post={data} />
-              </motion.div>
-            ))}
-          </div>
-          <div className="mt-10 justify-center space-x-16 lg:space-x-[48rem] flex">
-            {pageSekarang !== 1 && (
-              <button
-                onClick={backClick}
-                className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                />
+              </svg>
+
+              <span className="mx-1">Preview</span>
+            </div>
+          </button>
+        )}
+
+        {PostSekarang.length > postPerPage && (
+          <button
+            onClick={nextClick}
+            className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
+          >
+            <div className="flex items-center -mx-1">
+              <span className="mx-1">Next page</span>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 mx-1 rtl:-scale-x-100"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="flex items-center -mx-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 mx-1 rtl:-scale-x-100"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 16l-4-4m0 0l4-4m-4 4h18"
-                    />
-                  </svg>
-
-                  <span className="mx-1">Preview</span>
-                </div>
-              </button>
-            )}
-
-            {PostSekarang.length > postPerPage && (
-              <button
-                onClick={nextClick}
-                className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
-              >
-                <div className="flex items-center -mx-1">
-                  <span className="mx-1">Next page</span>
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 mx-1 rtl:-scale-x-100"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </div>
-              </button>
-            )}
-          </div>
-        </>
-      )}
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
+          </button>
+        )}
+      </div>
     </div>
   );
 }

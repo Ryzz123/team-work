@@ -2,8 +2,24 @@
 import { Hero } from "@/components/Hero";
 import PostHero from "@/components/PostHero";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const postRequest = await fetch("/api/post", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const postResponse = await postRequest.json();
+      setPosts(postResponse);
+    };
+    fetchData();
+  }, []);
 
   return (
     <motion.div
@@ -13,7 +29,7 @@ export default function Home() {
       exit={{ opacity: 0 }}
     >
       <Hero />
-      <PostHero />
+      <PostHero posts={posts} />
     </motion.div>
   );
 }
