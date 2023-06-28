@@ -21,7 +21,7 @@ export default function CardPost({ post }) {
     } else {
       setLikeStatus(false);
     }
-  }, [post]);
+  }, []);
 
   const addLike = async () => {
     if (!session?.user) {
