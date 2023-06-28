@@ -11,7 +11,7 @@ export default function PostHero() {
 
   const indexAkhirPost = pageSekarang * postPerPage;
   const indexAwalPost = indexAkhirPost - postPerPage;
-  const PostSekarang = posts.slice(indexAwalPost, indexAkhirPost);
+  const PostSekarang = !loading && posts.slice(indexAwalPost, indexAkhirPost);
 
   const nextClick = () => {
     window.scrollTo(0, 0);
@@ -78,7 +78,10 @@ export default function PostHero() {
           </div>
           <div className="mt-10 justify-center space-x-16 lg:space-x-[48rem] flex">
             {pageSekarang !== 1 && (
-              <button onClick={backClick} className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]">
+              <button
+                onClick={backClick}
+                className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
+              >
                 <div className="flex items-center -mx-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +104,10 @@ export default function PostHero() {
             )}
 
             {PostSekarang.length > postPerPage && (
-              <button onClick={nextClick} className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]">
+              <button
+                onClick={nextClick}
+                className="px-4 py-2 mx-1 font-inter font-semibold lg:text-lg text-[#319795] border border-[#03FAEB]"
+              >
                 <div className="flex items-center -mx-1">
                   <span className="mx-1">Next page</span>
 
