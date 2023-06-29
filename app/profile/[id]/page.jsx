@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 const ProfileId = ({ params }) => {
+  const { users, loading } = useData();
   const [loadingID, setLoadingID] = useState(true);
   const [user, setUser] = useState({});
   const [postUser, setPostUser] = useState({
@@ -12,23 +13,30 @@ const ProfileId = ({ params }) => {
   });
 
   useEffect(() => {
-    const getDataProfile = async () => {
-      const request = await fetch(`/api/users/${params.id}/posts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const response = await request.json();
-      setPostUser({
-        posts: response.posts,
-        likes: response.likes,
-      });
-      setUser(usersid[0]);
-      setLoadingID(false);
-    };
-    getDataProfile();
-  }, [params]);
+    if (!loading) {
+      const usersid = users.filter((profile) => profile._id === params.id);
+      if (usersid.length > 0) {
+        const getDataProfile = async () => {
+          const request = await fetch(`/api/users/${params.id}/posts`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const response = await request.json();
+          setPostUser({
+            posts: response.posts,
+            likes: response.likes,
+          });
+          setUser(usersid[0]);
+          setLoadingID(false);
+        };
+        getDataProfile();
+      } else {
+        alert("tidak ada users");
+      }
+    }
+  }, [params, loading]);
 
   return (
     <motion.div

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
+export const fetchCache = "only-no-store";
 
 export const metadata = {
   title: "RFERTECH | TEAM",
