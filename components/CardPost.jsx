@@ -1,12 +1,10 @@
 "use client";
-import { useData } from "@/context/PostContext";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 export default function CardPost({ post }) {
   const [like, setLike] = useState(0);
   const { data: session } = useSession();
-  const { sharePost } = useData();
   const [likeStatus, setLikeStatus] = useState(true);
   const [data, setData] = useState({});
 
@@ -62,7 +60,10 @@ export default function CardPost({ post }) {
       <div className="flex items-center mt-2 mb-2 mx-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 overflow-hidden border-2 border-gray-400 rounded-full">
-            <img className="object-cover w-full h-full" src={post?.creator?.image} />
+            <img
+              className="object-cover w-full h-full"
+              src={post?.creator?.image}
+            />
           </div>
           <div className="flex flex-col">
             <div className="flex">
@@ -112,7 +113,7 @@ export default function CardPost({ post }) {
             <h1 className=" mx-2 text-white">{post?.comments.length}</h1>
           </button>
           <button
-            onClick={() => sharePost(post, session)}
+            // onClick={() => sharePost(post, session)}
             className="flex cursor-pointer"
           >
             <img className="w-5" src="images/share-icon.svg" />
