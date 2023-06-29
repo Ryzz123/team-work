@@ -1,11 +1,12 @@
 "use client";
-import { Hero } from "@/components/Hero";
+import Hero from "@/components/Hero";
 import PostHero from "@/components/PostHero";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,9 +15,11 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-cache",
       });
       const postResponse = await postRequest.json();
       setPosts(postResponse);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -29,7 +32,7 @@ export default function Home() {
       exit={{ opacity: 0 }}
     >
       <Hero />
-      <PostHero posts={posts} />
+      <PostHero posts={posts} loading={loading} />
     </motion.div>
   );
 }
