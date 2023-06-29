@@ -3,7 +3,7 @@ import PostHero from "@/components/PostHero";
 
 async function getData() {
   const res = await fetch("https://rfertech.vercel.app/api/post", {
-    cache: "no-cache",
+    cache: "no-store",
   });
   return res.json();
 }
